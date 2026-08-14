@@ -349,9 +349,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 
   <!-- Cluster Cards -->
   <div class="cluster-grid" id="cluster-grid">
-  {% for c in clusters %}
-    {% set total_pods = c.pods.running + c.pods.pending + c.pods.crashloop + c.pods.failed %}
-    {% set total_nodes = c.nodes.ready + c.nodes.not_ready %}
+    {% for c in clusters %}
     <div class="card {{ c.status }}" data-cluster="{{ c.name | e }}">
       <div class="accent"></div>
       <div class="card-header">
@@ -368,6 +366,8 @@ TEMPLATE = r"""<!DOCTYPE html>
       </div>
 
       {% if c.reachable %}
+      {% set total_pods = c.pods.running + c.pods.pending + c.pods.crashloop + c.pods.failed %}
+      {% set total_nodes = c.nodes.ready + c.nodes.not_ready %}
       <!-- Nodes -->
       <div class="metric-group">
         <div class="metric-group-label">Nodes</div>
@@ -535,10 +535,8 @@ TEMPLATE = r"""<!DOCTYPE html>
       return;
     }
     var html = '';
-    for (var i = 0; i < clusters.length; i++) {
+        for (var i = 0; i < clusters.length; i++) {
       var c = clusters[i];
-      var totalPods = (c.pods.running || 0) + (c.pods.pending || 0) + (c.pods.crashloop || 0) + (c.pods.failed || 0);
-      var totalNodes = (c.nodes.ready || 0) + (c.nodes.not_ready || 0);
 
       html += '<div class="card ' + (c.status || 'unreachable') + '">';
       html += '  <div class="accent"></div>';
@@ -550,6 +548,8 @@ TEMPLATE = r"""<!DOCTYPE html>
       html += '  </div>';
 
       if (c.reachable) {
+        var totalPods = (c.pods.running || 0) + (c.pods.pending || 0) + (c.pods.crashloop || 0) + (c.pods.failed || 0);
+        var totalNodes = (c.nodes.ready || 0) + (c.nodes.not_ready || 0);
         // Nodes
         var nodePct = totalNodes > 0 ? Math.round(c.nodes.ready / totalNodes * 100) : 0;
         html += '  <div class="metric-group"><div class="metric-group-label">Nodes</div><div class="metric-row">';
