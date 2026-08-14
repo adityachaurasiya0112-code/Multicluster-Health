@@ -1,0 +1,16 @@
+# Multi-cluster health-check configuration.
+#
+# Each entry lists a human-readable *name* (used in UI/logging) and the
+# corresponding *context* that must exist in ~/.kube/config.
+#
+# Verify available contexts with:
+#     kubectl config get-contexts
+#
+# If a context is missing, add it with:
+#     kubectl config set-context <name> --cluster=<cluster> --user=<user>
+
+clusters:
+  - name: minikube-main
+    context: minikube
+  - name: minikube-test
+    context: k8s-diff-test
